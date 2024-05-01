@@ -1,0 +1,180 @@
+<%- contentFor('HeaderCss') %>
+<link href="public/assets/plugins/c3/c3.min.css" rel="stylesheet" type="text/css" />
+
+
+<%- contentFor('breadcrumb') %>
+<ul class="list-inline menu-left mb-0">
+    <li class="list-inline-item">
+        <button type="button" class="button-menu-mobile open-left waves-effect">
+            <i class="ion-navicon"></i>
+        </button>
+    </li>
+    <li class="hide-phone list-inline-item app-search">
+        <h3 class="page-title">Mission Control</h3>
+    </li>
+</ul>
+
+<%- contentFor('body') %>
+
+<div class="page-content-wrapper">
+        <div class="container-fluid">
+         
+            <div class="row">
+                <div class="col-md-5 ">
+                    <div class="mini-stat clearfix bg-white">
+                        <!-- <span class="mini-stat-icon bg-purple mr-0 float-right"><i class="mdi mdi-basket"></i></span> -->
+                        <div class="mini-stat-info">
+                            <span class="counter">Funnel (25, $3M)</span>
+                            
+                        </div>
+                        <div>
+                            <% projects.forEach(function(project) { %>
+                                <% if(project.phase_name == 'Pitch'){%>
+                                    <span><button type="button" class="btn btn-light" style="margin-bottom: 5px;"><%= project.project_name %></button></span>&nbsp;&nbsp;&nbsp;
+                                <%}%>
+                                
+                            <% }); %>
+                            
+                            <!-- <span><button type="button" class="btn btn-light" style="margin-bottom: 5px;">Big New Idea</button></span>&nbsp;&nbsp;&nbsp;
+                            <span><button type="button" class="btn btn-light" style="margin-bottom: 5px;">ERP Replacement</button></span>&nbsp;&nbsp;&nbsp;
+                            <span><button type="button" class="btn btn-light" style="margin-bottom: 5px;">New Website</button></span>&nbsp;&nbsp;&nbsp;
+                            <span><button type="button" class="btn btn-light" style="margin-bottom: 5px;">New Board Tool</button></span>&nbsp;&nbsp;&nbsp; -->
+
+                        </div>
+                        
+                        <div class="clearfix"></div>
+                       
+                    </div>
+                </div>
+                <div class="col-md-5 ">
+                    <div class="mini-stat clearfix bg-white">
+                       
+                        <div class="mini-stat-info">
+                            <span class="counter">Priority (8,$1M, 5K PD)</span>
+                           
+                        </div>
+                        <div>
+                            <% projects.forEach(function(project) { %>
+                                <% if(project.phase_name == 'Priority'){%>
+                                    <span><button type="button" class="btn btn-light" style="margin-bottom: 5px;"><%= project.project_name %></button></span>&nbsp;&nbsp;&nbsp;
+                                <%}%>
+                                
+                            <% }); %>
+                            <!-- <span><button type="button" class="btn btn-light" style="margin-bottom: 5px;">Quick Hits 2024</button></span>&nbsp;&nbsp;&nbsp;
+                            <span><button type="button" class="btn btn-light" style="margin-bottom: 5px;">Quick Hits 2</button></span>&nbsp;&nbsp;&nbsp;
+                            <span><button type="button" class="btn btn-light" style="margin-bottom: 5px;">Quick Hits 3</button></span>&nbsp;&nbsp;&nbsp;
+                            <span><button type="button" class="btn btn-light" style="margin-bottom: 5px;">Quick Hits 4</button></span>&nbsp;&nbsp;&nbsp; -->
+
+                        </div>
+                        <div class="clearfix"></div>
+                       
+                    </div>
+                    
+                   
+                </div>
+                <div class="col-md-2">
+                    <div class="mini-stat clearfix bg-white text-center">
+                       
+                       
+                        <div>
+                           
+                            <div><button type="button" style="width:75%; margin-bottom:5px;" class="btn btn-light">Radar</button></div>
+                            <div><button type="button" style="width:75%; margin-bottom:5px;" class="btn btn-light">Flight Plan</button></div>
+                            <div><button type="button" style="width:75%; margin-bottom:5px;" class="btn btn-light">Health</button></div>
+                            <div><button type="button" style="width:75%; margin-bottom:5px;" class="btn btn-light">Radar</button></div>
+                            <div><button type="button" style="width:75%; margin-bottom:5px;" class="btn btn-light">Flight Plan</button></div>
+                            <div><button type="button" style="width:75%; margin-bottom:5px;" class="btn btn-light">Health</button></div>
+                            
+
+                        </div>
+                        <div class="clearfix"></div>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 ">
+                    <div class="mini-stat clearfix bg-white">
+                        <!-- <span class="mini-stat-icon bg-purple mr-0 float-right"><i class="mdi mdi-basket"></i></span> -->
+                        <div class="mini-stat-info">
+                            <span class="counter">Discovery (4, $150K, 500 PD)</span>
+                            
+                        </div>
+                        <div>
+                            <% projects.forEach(function(project) { %>
+                                <% if(project.phase_name == 'Discovery'){%>
+                                    <span><button type="button" style="width: 100%;border-color:green;border-width: 2px;margin-bottom: 5px;" class="btn btn-light text-left"><%= project.project_name %></button></span>&nbsp;&nbsp;&nbsp;
+                                <%}%>
+                                
+                            <% }); %>
+                           
+
+                        </div>
+                        <div class="clearfix"></div>
+                       
+                    </div>
+                </div>
+                <div class="col-md-5 ">
+                    <div class="mini-stat clearfix bg-white">
+                       
+                        <div class="mini-stat-info">
+                            <span class="counter ">Delivery (6, $500K, 2K PD)</span>
+                           
+                        </div>
+                        <div>
+                            <% projects.forEach(function(project) { %>
+                                <% if(project.phase_name == 'Delivery'){%>
+                                    <span><button type="button" style="width: 100%;border-color:red;border-width: 2px;margin-bottom: 5px;" class="btn btn-light text-left"><%= project.project_name %></button></span>&nbsp;&nbsp;&nbsp;
+                                <%}%>
+                                
+                            <% }); %>
+                           
+                         </div>
+                        <div class="clearfix"></div>
+                       
+                    </div>
+                </div>
+                <div class="col-md-10 ">
+                    <div class="mini-stat clearfix bg-white">
+                       
+                        <div class="mini-stat-info">
+                            <span class="counter">Operations (7, $1M, 5K PD)</span>
+                           
+                        </div>
+                        <div>
+                            <% projects.forEach(function(project) { %>
+                                <% if(project.phase_name == 'Operations'){%>
+                                    <span><button type="button" class="btn btn-light" style="margin-bottom: 5px;"><%= project.project_name %></button></span>&nbsp;&nbsp;&nbsp;
+                                    
+                                <%}%>
+                                
+                            <% }); %>
+                        </div>
+                        <div class="clearfix"></div>
+                       
+                    </div>
+                </div>
+                
+            </div>
+            
+
+
+           
+
+        </div>
+
+</div>
+
+<%- contentFor('FooterJs') %>
+<script src="public/assets/plugins/peity-chart/jquery.peity.min.js"></script>
+<!--C3 Chart-->
+<script src="public/assets/plugins/d3/d3.min.js"></script>
+<script src="public/assets/plugins/c3/c3.min.js"></script>
+<!-- KNOB JS -->
+<script src="public/assets/plugins/jquery-knob/excanvas.js"></script>
+<script src="public/assets/plugins/jquery-knob/jquery.knob.js"></script>
+<!-- Page specific js -->
+<script src="public/assets/pages/dashboard.js"></script>
+
+ <%- contentFor('BottomJs') %>
+ 
