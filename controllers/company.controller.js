@@ -78,7 +78,7 @@ exports.create = async (req, res) => {
 
 // Retrieve all  from the database.
 exports.findAll = (req, res) => {
-  
+  console.log("FIND ALL COMPANIES")
    Company.findAll({})
       .then(data => {
         res.send(data);

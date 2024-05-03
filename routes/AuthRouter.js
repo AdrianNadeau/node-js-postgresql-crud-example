@@ -9,7 +9,6 @@ const Person = db.persons;
 const Op = db.Sequelize.Op;
 
 //Authentications all TABs.
-
 Authrouter.get('/login', function(req, res)
 {
       res.render('Pages/pages-login');
@@ -72,8 +71,7 @@ Authrouter.get('/session-expired', function(req, res)
 //       res.send("About this wiki");
 //     });
    
-
-// Authrouter.get('/pages-comingsoon', function(req, res)
+// Authrouter.get('/pages-coming-soon', function(req, res)
 // {
 //       res.render('Pages/pages-comingsoon');
 // });
