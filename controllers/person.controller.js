@@ -5,7 +5,8 @@ const Company = db.companies;
 const Op = db.Sequelize.Op;
 // const bcrypt = require('bcrypt');
 var bcrypt = require('bcryptjs');
-const saltRounds = 10;
+const jwt = require('jsonwebtoken');
+const verifyToken = require('../routes/JWTRouter');
 
 // Create and Save a new 
 exports.create = async (req, res) => {
@@ -88,33 +89,32 @@ exports.findAll = (req, res) => {
 // Find a single  with an id
 exports.login = async  (req, res) => {
   const { email, password } = req.body;
- 
-  //Check password by encrypted value
-  // Find user by email in your database
-  const person = await Person.findOne({ email });
-  
-  // res.send(person)
-  if (!person) {
-    // User not found
-    return res.status(404).json({ message: "User not found." });
-  }
-  console.log("copmany:",person.company_id_fk)
-  
-  const company = await Company.findOne({ id: person.company_id_fk });
- 
-    if(company){
-      console.log("LOGIN:",company.id)
-      const session = req.session;
-      session.company = company;
-      session.person = person;
-     
-    
-    }
-    else{
-      console.log("NO LOGIN")
-    }
-    res.redirect('/');
-  
+
+// Check password by encrypted value
+// Find user by email in your database
+const person = await Person.findOne({ email });
+
+if (!person) {
+  // User not found
+  return res.status(404).json({ message: "User not found." });
+}
+
+console.log("company:", person.company_id_fk);
+
+const company = await Company.findOne({ id: person.company_id_fk });
+if (company) {
+  console.log("LOGIN:", company.id);
+  req.session.company = company;
+  req.session.person = person;
+  const token = jwt.sign({ personID: person.id }, 'JWT_TOKEN_PRIORITY_PILOT', {
+    expiresIn: '1h',
+  });
+  console.log("TOKEN::::::: ",token)
+  res.redirect('/');
+} else {
+  res.redirect('/login'); // Redirect to login page if company not found
+}
+
 };
 
 // Find a single  with an id

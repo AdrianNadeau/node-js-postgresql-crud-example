@@ -1,5 +1,7 @@
 module.exports = app => {
     const persons = require("../controllers/person.controller.js");
+    const jwt = require('jsonwebtoken');
+    
   
     var router = require("express").Router();
   

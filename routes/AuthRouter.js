@@ -35,7 +35,6 @@ Authrouter.post("/auth/login", persons.login);
 
 Authrouter.get('/session-expired', function(req, res)
 {
-
       res.render('Pages/pages-session-timeout');
 });
 
@@ -96,14 +95,17 @@ Authrouter.get('/session-expired', function(req, res)
 //       }
 //   });
 Authrouter.get('/logout', function(req, res) {
-      req.session.destroy((err) => {
+       // Destroy session on the server-side
+      req.session.destroy(err => {
             if (err) {
-            console.log(err)
-            return next(err)
+            console.error('Error destroying session:', err);
+            res.status(500).send('Error logging out');
+            } else {
+            // Clear cookie on the client-side
+            res.clearCookie('connect.sid', { path: '/' });
+            res.redirect('/login'); // Redirect to login page or any other page
             }
-            console.log("session destroyed")
-            return res.redirect("/login")
-      })
+      });
 });
 
 

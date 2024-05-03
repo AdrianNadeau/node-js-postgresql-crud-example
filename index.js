@@ -4,8 +4,9 @@ var session = require('express-session')
 var path = require('path');
 var http = require('http').Server(app);
 var bCrypt = require('bcryptjs');
-// var bodyParser = require('body-parser');
 const bodyParser = require('body-parser');
+const uuid = require('uuid');
+
 var router = require('./router.js');
 var Authrouter = require('./routes/AuthRouter.js');
 var DashboardRouter = require('./routes/DashboardRouter.js');
@@ -23,9 +24,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const sessionMiddleware = session({
-  secret: "changeit",
+  genid: (req) => {
+    return uuid.v4(); // generate GUID as session ID
+  },
+  secret: process.env.SECRET,
   resave: true,
   saveUninitialized: true,
+  rolling: true // Force regeneration of session ID for each request
 });
 app.use(sessionMiddleware);
 

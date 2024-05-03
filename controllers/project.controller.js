@@ -10,6 +10,7 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Project
 exports.create = (req, res) => {
   const company_id_fk = req.session.company.id
+  console.log("CREATE FOR COMPANY: ",company_id_fk)
  
    
     if (!req.body.project_name) {
@@ -59,7 +60,6 @@ exports.create = (req, res) => {
     // Save Project in the database
     Project.create(project)
       .then(async data => {
-        console.log("-----------------------------------------data",data)
         // Retrieve data from all sources
         const [phasesData, prioritiesData, personsData, projectsData] = await Promise.all([
           Phase.findAll(),
@@ -69,35 +69,25 @@ exports.create = (req, res) => {
       ]);
       
       // Custom SQL query
-      const query = "SELECT proj.project_name, proj.start_date, proj.end_date, proj.health, prime_person.first_name AS prime_first_name, prime_person.last_name AS prime_last_name, sponsor_person.first_name AS sponsor_first_name, sponsor_person.last_name AS sponsor_last_name, proj.project_cost, phases.phase_name FROM projects proj LEFT JOIN persons prime_person ON prime_person.id = proj.prime_id_fk LEFT JOIN persons sponsor_person ON sponsor_person.id = proj.sponsor_id_fk LEFT JOIN phases ON phases.id = proj.phase_id_fk WHERE proj.company_id_fk = ? ;"
-      
-      await db.sequelize.query(query, {
-          replacements: {id: company_id_fk},
-          type: db.sequelize.QueryTypes.SELECT
-      }).then(data => {
-          // Render the page when all data retrieval operations are complete
-          console.log()
-          res.render('Pages/pages-projects', {
-              projects: projectsData,
-              phases: phasesData,
-              priorities: prioritiesData,
-              sponsors: personsData,
-              primes: personsData
+      const query ='SELECT proj.company_id_fk, proj.project_name, proj.start_date, proj.end_date, proj.health, prime_person.first_name AS prime_first_name, prime_person.last_name AS prime_last_name, sponsor_person.first_name AS sponsor_first_name, sponsor_person.last_name AS sponsor_last_name, proj.project_cost, phases.phase_name FROM projects proj LEFT JOIN persons prime_person ON prime_person.id = proj.prime_id_fk LEFT JOIN persons sponsor_person ON sponsor_person.id = proj.sponsor_id_fk LEFT JOIN phases ON phases.id = proj.phase_id_fk WHERE proj.company_id_fk = ?';
+          console.log("FIND ALLLLLLLLLLLLLLLLLLLLL:",company_id_fk)
+       await db.sequelize.query(query, {
+        replacements: [company_id_fk],
+              type: db.sequelize.QueryTypes.SELECT
+          }).then(data => {
+              // Render the page when all data retrieval operations are complete
+              res.render('Pages/pages-projects', {
+                  projects: data,
+                  phases: phasesData,
+                  priorities: prioritiesData,
+                  sponsors: personsData,
+                  primes: personsData
+              });
+          }).catch(err => {
+              res.status(500).send({
+                  message: err.message || "Some error occurred while retrieving data."
+              });
           });
-      }).catch(err => {
-          res.status(500).send({
-              message: err.message || "Some error occurred while retrieving data."
-          });
-      });
-      })
-      .catch(err => {
-        
-        res.status(500).send({
-          
-          message:
-            err.message || "Some error occurred while creating the Project."
-          
-        });
       });
   };
 
@@ -119,7 +109,7 @@ exports.findAll = async (req, res) => {
           }catch(error){
             console.log("error:",error)
           }
-          console.log("company_id_fk:",company_id_fk)
+          // console.log("company_id_fk:",company_id_fk)
           // Retrieve data from all sources
           const [phasesData, prioritiesData, personsData, projectsData] = await Promise.all([
               Phase.findAll(),
@@ -128,7 +118,7 @@ exports.findAll = async (req, res) => {
               Project.findAll() // Assuming Project.findAll() returns a Promise
           ]);
           const query ='SELECT proj.company_id_fk, proj.project_name, proj.start_date, proj.end_date, proj.health, prime_person.first_name AS prime_first_name, prime_person.last_name AS prime_last_name, sponsor_person.first_name AS sponsor_first_name, sponsor_person.last_name AS sponsor_last_name, proj.project_cost, phases.phase_name FROM projects proj LEFT JOIN persons prime_person ON prime_person.id = proj.prime_id_fk LEFT JOIN persons sponsor_person ON sponsor_person.id = proj.sponsor_id_fk LEFT JOIN phases ON phases.id = proj.phase_id_fk WHERE proj.company_id_fk = ?';
-          
+          console.log("FIND ALLLLLLLLLLLLLLLLLLLLL:",company_id_fk)
        await db.sequelize.query(query, {
         replacements: [company_id_fk],
               type: db.sequelize.QueryTypes.SELECT
