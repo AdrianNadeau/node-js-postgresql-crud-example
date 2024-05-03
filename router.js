@@ -7,7 +7,8 @@ const Op = db.Sequelize.Op;
 
 // Dashboard
 router.get('/', async function (req, res) {
-    
+    //get all projects by phase
+    //SELECT projects.project_name, phases.phase_name FROM projects INNER JOIN phases ON projects.phase_id_fk = phases.id GROUP BY phases.id, phases.phase_name, projects.project_name, projects.start_date ORDER BY projects.start_date;
  // Custom SQL query
  const query = "SELECT projects.project_name,projects.start_date, phases.phase_name FROM projects INNER JOIN phases ON projects.phase_id_fk = phases.id GROUP BY phases.id, phases.phase_name, projects.project_name, projects.start_date ORDER BY projects.start_date;";
           
