@@ -8,49 +8,25 @@ const Op = db.Sequelize.Op;
 // Dashboard
 router.get('/', async function (req, res) {
     const company_id_fk = req.session.company.id
-    console.log("DASHBOARD FOR COMPANY: ",company_id_fk)
- // Custom SQL query
- const query ='SELECT proj.company_id_fk, proj.project_name, proj.start_date, proj.end_date, proj.health, prime_person.first_name AS prime_first_name, prime_person.last_name AS prime_last_name, sponsor_person.first_name AS sponsor_first_name, sponsor_person.last_name AS sponsor_last_name, proj.project_cost, phases.phase_name FROM projects proj LEFT JOIN persons prime_person ON prime_person.id = proj.prime_id_fk LEFT JOIN persons sponsor_person ON sponsor_person.id = proj.sponsor_id_fk LEFT JOIN phases ON phases.id = proj.phase_id_fk WHERE proj.company_id_fk = ?';
- console.log("DASH ALLLLLLLLLLLLLLLLLLLLL:",company_id_fk)
-await db.sequelize.query(query, {
-replacements: [company_id_fk],
-     type: db.sequelize.QueryTypes.SELECT
- }).then(data => {
-     // Render the page when all data retrieval operations are complete
-     res.render('Dashboard/dashboard1', {
-        projects: data,
-    });
- }).catch(err => {
-     res.status(500).send({
-         message: err.message || "Some error occurred while retrieving data."
-     });
- });
-});
-// router.get('/dashboard2', async function (req, res) {
-//     const query = "SELECT projects.project_name,projects.start_date, phases.phase_name FROM projects INNER JOIN phases ON projects.phase_id_fk = phases.id GROUP BY phases.id, phases.phase_name, projects.project_name, projects.start_date ORDER BY projects.start_date;";
-          
-//  await db.sequelize.query(query, {
-//      // replacements: {id: company_id_fk},
-//      type: db.sequelize.QueryTypes.SELECT
-//  }).then(data => {
-//      // Render the page when all data retrieval operations are complete
-     
-//      res.render('Dashboard/dashboard2', {
-//         projects: data,
-//     });
-     
-//  }).catch(err => {
-//      res.status(500).send({
-//          message: err.message || "Some error occurred while retrieving data."
-//      });
-//  });
+    // Custom SQL query
+    const query ='SELECT proj.company_id_fk, proj.id, proj.health, proj.project_name, proj.start_date, proj.end_date, proj.health, prime_person.first_name AS prime_first_name, prime_person.last_name AS prime_last_name, sponsor_person.first_name AS sponsor_first_name, sponsor_person.last_name AS sponsor_last_name, proj.project_cost, phases.phase_name FROM projects proj LEFT JOIN persons prime_person ON prime_person.id = proj.prime_id_fk LEFT JOIN persons sponsor_person ON sponsor_person.id = proj.sponsor_id_fk LEFT JOIN phases ON phases.id = proj.phase_id_fk WHERE proj.company_id_fk = ?';
     
-// })
+    await db.sequelize.query(query, {
+    replacements: [company_id_fk],
+        type: db.sequelize.QueryTypes.SELECT
+    }).then(data => {
+        
+        // Render the page when all data retrieval operations are complete
+        res.render('Dashboard/dashboard1', {
+            projects: data,
+        });
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving data."
+        });
+    });
+});
 
-// Calendar
-router.get('/calendar', function (req, res) {
-    res.render('Calendar/calendar');
-})
 
 // Email
 router.get('/email-compose', function (req, res) {

@@ -27,6 +27,7 @@
                             <table class="table mb-0">
                                 <thead>
                                     <tr>
+                                        <th>ID</th>
                                         <th>Name</th>
                                         <th>Prime</th>
                                         <th>Sponsor</th>
@@ -37,19 +38,35 @@
                                     </tr>
                                 </thead>
                                
-                                  <% projects.forEach(function(project) { %>
-                                      <tbody>
-                                          <tr style="cursor: pointer;">
-                                              <td><%= project.project_name %></td>
-                                              <td><%= project.prime_last_name %>, <%= project.prime_first_name %></td>
-                                              <td><%= project.sponsor_last_name %>, <%= project.sponsor_first_name %> </td>
-                                              <td><%= project.start_date %></td>
-                                              <td><%= project.end_date %></td>
-                                              <td><%= project.health %></td>
-                                              <td><%= project.phase_name %></td>
-                                          </tr>
-                                      </tbody>
-                                  <% }); %>
+                                <% projects.forEach(function(project) { %>
+                                  <tbody>
+                                      <tr style="cursor: pointer;">
+                                        <input type="hidden" name="project_id" value = "<%= project.id %>"/>
+                                        <td><%= project.id %></td>
+                                        <td><%= project.project_name %></td>
+
+                                        <% if(project.prime_last_name){ %>
+                                            <td><%= project.prime_last_name %>, <%= project.prime_first_name %> </td>
+                                        <% } else { %>
+                                            <td>N/A</td>
+                                        <% } %>
+
+                                        <% if(project.sponsor && project.sponsor.last_name){ %>
+                                          <td><%= project.sponsor.last_name %>, <%= project.sponsor.first_name %> </td>
+                                        <% } else { %>
+                                          <td>N/A</td>
+                                        <% } %>
+                                       
+                                        
+                                        <td><%= project.start_date %></td>
+                                        <td><%= project.end_date %></td>
+                                        <td><%= project.health %></td>
+                                        <td><%= project.phase_name %></td>
+                                        
+                                      </tr>
+                                  </tbody>
+                              <% }); %>
+                              
                              
                             </table>
                         </div>
@@ -257,7 +274,6 @@
   
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.querySelectorAll('.needs-validation')
-    console.log("forms:",forms)
     // Loop over them and prevent submission
     Array.prototype.slice.call(forms)
       .forEach(function (form) {
@@ -345,15 +361,35 @@ addProjectBtn.addEventListener("click", function() {
 
         // Loop through each row
         rows.forEach(function(row) {
+          
             // Add a click event listener to each row
             row.addEventListener("click", function() {
-                // Show the modal when a row is clicked
-                console.log("log",row);
-                $('#addProject').modal('show'); // Assuming you're using jQuery
+                // pages-project-edit
+                var projectId = row.querySelector('input[name="project_id"]').value;
+                console.log("projectid:",projectId)
+                // window.location.replace('/Pages/pages-projects-edit');
+                 // Send a GET request to the server with the project ID
+                  fetch('/projects/' + projectId)
+                    .then(response => {
+                      if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                      }
+                      return response.json(); // Parse the JSON response
+                    })
+                    .then(data => {
+                      // Handle the response data here
+                      console.log("RESPONSE:",data);
+                      // Redirect or perform any other action based on the response
+                      // For example, if you want to redirect to a new page:
+                      // window.location.href = '/projects/' + projectId;
+                    })
+                    .catch(error => {
+                      console.error('There was a problem with the fetch operation:', error);
+                    });
+                  
+                 
             });
         });
     });
-    function openDeleteModal(){
-      alert("delete?")
-    }
+    
 </script>

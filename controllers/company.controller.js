@@ -17,7 +17,7 @@ exports.create = async (req, res) => {
       const session = req.session;
       session.company = company;
       try{
-       
+        console.log("create session.company:",session.company.id)
         res.redirect('/confirm');
       }
       catch(err){
@@ -32,6 +32,7 @@ exports.create = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 // exports.create = (req, res) => {
 //   console.log("in controller")
@@ -59,8 +60,7 @@ exports.create = async (req, res) => {
         
 //       }
 //       else{
-//         global.company = data;
-//         res.send(data);
+       
 //       }
 //     })
 //     .catch(err => {

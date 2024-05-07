@@ -24,9 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const sessionMiddleware = session({
-  genid: (req) => {
-    return uuid.v4(); // generate GUID as session ID
-  },
+
   secret: process.env.SECRET,
   resave: true,
   saveUninitialized: true,

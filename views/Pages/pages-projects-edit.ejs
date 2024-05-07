@@ -1,0 +1,297 @@
+<%- contentFor('HeaderCss') %>
+<!-- Bootstrap CSS -->
+<link href="public/assets/plugins/c3/c3.min.css" rel="stylesheet" type="text/css" />
+
+
+<%- contentFor('breadcrumb') %>
+<ul class="list-inline menu-left mb-0">
+    <li class="list-inline-item">
+        <button type="button" class="button-menu-mobile open-left waves-effect">
+            <i class="ion-navicon"></i>
+        </button>
+    </li>
+    
+   
+</ul>
+<li class="hide-phone list-inline-item app-search">
+  <h3 class="page-title">Edit Project</h3>
+  
+  
+</li>
+<%- contentFor('body') %>
+<div class="page-content-wrapper">
+    <div class="container-fluid">
+      <form action="/projects" class="needs-validation" novalidate method="POST">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- First column of form fields -->
+                <div class="form-group needs-validation" novalidate>
+                    <label for="project_name">Name</label>
+                    <input type="text" class="form-control" id="project_name"  name="project_name" required>
+                    <div class="invalid-feedback">
+                        Please enter project name.
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label for="project_headline">Headline</label>
+                    <input type="text" class="form-control" id="project_headline"  name="project_headline"  >
+                </div>
+                <div class="form-group" >
+                  <label for="project_description">Description</label>
+                  <textarea rows="4" class="form-control" id="project_description"  name="project_description" ></textarea>
+              </div>
+              <div class="form-group" >
+                  <label for="project_headline">Why?</label>
+                  <textarea rows="4" class="form-control" id="project_why"  name="project_why" ></textarea>
+              </div>
+              <div class="form-group" >
+                <label for="project_headline">What?</label>
+                <textarea rows="4" class="form-control" id="project_what"  name="project_what"  ></textarea>
+               
+              </div>
+              <div class="form-group">
+                <label for="datepicker">Start Date:</label>
+                <input type="date" id="start_date" name="start_date" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="datepicker">End Date:</label>
+                <input type="date" id="end_date" name="end_date" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="datepicker">Next Milestone Date:</label>
+                <input type="date" id="next_milestone_date" name="next_milestone_date" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="datepicker">Status Date:</label>
+                <input type="date" id="status_date" name="status_date" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+               
+              </div>
+              <div class="form-group">
+                <label for="phase">Phase:</label>
+                <select name ="phase_id_fk" id = "phase_id_fk">
+                  
+                  
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="priority">Priority:</label>
+                <select name = "priority_id_fk" id = "priority_id_fk">
+                 
+                  
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="sponsor">Sponsor:</label>
+                <select name = "sponsor_id_fk" id = "sponsor_id_fk">
+                  
+          
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="prime">Prime:</label>
+                <select name = "prime_id_fk" id = "prime_id_fk">
+                  
+                 
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="benefit">Benefit:</label>
+                <select name = "benefit" id = "benefit">
+                  
+                  <% for (var i = 1; i <= 10; i++) { %>
+                    <option value="<%= i %>"><%= i %></option>
+                  <% } %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="effort">Effort:</label>
+                <select name = "effort" id = "effort">
+                  
+                  <% for (var i = 1; i <= 10; i++) { %>
+                    <option value="<%= i %>"><%= i %></option>
+                  <% } %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="impact">Impact:</label>
+                <select name = "impact" id = "impact">
+                  
+                  <% for (var i = 1; i <= 10; i++) { %>
+                    <option value="<%= i %>"><%= i %></option>
+                  <% } %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="complexity">Complexity:</label>
+                <select  name = "complexity" id = "complexity">
+                  <option value="0">Select...</option>
+                  <% for (var i = 1; i <= 10; i++) { %>
+                    <option value="<%= i %>"><%= i %></option>
+                  <% } %>
+                </select>
+              </div>
+              <div class="form-group" >
+                <label for="project_cost">Cost</label>
+                <input type="text" class="form-control" id="project_cost"  name="project_cost" value="0">
+               
+            </div>
+            
+              <div class="form-group" >
+                <label for="project_health">Health</label>
+                ** Calculated
+               
+             </div>
+             <div class="form-group" >
+              <label for="project_tags">Tags (comma separated)</label>
+              <input type="text" class="form-control" id="project_tags"  name="project_tags" >
+             
+          </div>
+          <div class="form-group" >
+              <label for="progress">Progress % (numbers only)</label>
+              <input type="text" class="form-control" id="progress"  name="progress" value="0" >
+             
+          </div>
+          <div class="form-group" >
+              <label for="progress">Issue</label>
+              <input type="text" class="form-control" id="issue"  name="issue" >
+             
+          </div>
+          <div class="form-group" >
+              <label for="actions">Actions</label>
+              <input type="text" class="form-control" id="actions"  name="actions"  >
+             
+          </div>
+  
+          <div class="form-group" >
+              <label class="form-label" for="logo"></label>
+              <input type="file" class="form-control" id="logo" name="logo" />
+          </div>
+            </div>
+        </div>
+        <!-- Add more rows and columns if needed -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Submit</button>
+            <!-- if edit, add delete button -->
+            <!-- <button class="btn btn-danger w-md waves-effect waves-light" onClick='openDeleteModal()' type="button">Delete</button> -->
+            <!-- if edit, add delete button -->
+        </div>
+    </form>
+       
+    </div>
+</div>
+
+<%- contentFor('FooterJs') %>
+
+<%- contentFor('BottomJs') %>
+<script>
+  (function () {
+    'use strict'
+  
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+    console.log("forms:",forms)
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+  
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+  document.getElementById('progress').addEventListener('keydown', function(event) {
+    // Allow: backspace, delete, tab, escape, enter, and decimal point (if not present)
+    if ([46, 8, 9, 27, 13, 110, 190].includes(event.keyCode) ||
+        // Allow: Ctrl+A
+        (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) || 
+        // Allow: Ctrl+C
+        (event.keyCode === 67 && (event.ctrlKey === true || event.metaKey === true)) || 
+        // Allow: Ctrl+V
+        (event.keyCode === 86 && (event.ctrlKey === true || event.metaKey === true)) || 
+        // Allow: Ctrl+X
+        (event.keyCode === 88 && (event.ctrlKey === true || event.metaKey === true)) || 
+        // Allow: home, end, left, right
+        (event.keyCode >= 35 && event.keyCode <= 39)) {
+             // let it happen, don't do anything
+             return;
+    }
+    // Ensure that it is a number and stop the keypress if not
+    if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+        alert("Only numbers are allowed")
+        event.preventDefault();
+    }
+});
+document.getElementById('project_cost').addEventListener('keydown', function(event) {
+    // Allow: backspace, delete, tab, escape, enter, and decimal point (if not present)
+    if ([46, 8, 9, 27, 13, 110, 190].includes(event.keyCode) ||
+        // Allow: Ctrl+A
+        (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) || 
+        // Allow: Ctrl+C
+        (event.keyCode === 67 && (event.ctrlKey === true || event.metaKey === true)) || 
+        // Allow: Ctrl+V
+        (event.keyCode === 86 && (event.ctrlKey === true || event.metaKey === true)) || 
+        // Allow: Ctrl+X
+        (event.keyCode === 88 && (event.ctrlKey === true || event.metaKey === true)) || 
+        // Allow: home, end, left, right
+        (event.keyCode >= 35 && event.keyCode <= 39)) {
+             // let it happen, don't do anything
+             return;
+    }
+    // Ensure that it is a number and stop the keypress if not
+    if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+        alert("Only numbers are allowed")
+        event.preventDefault();
+    }
+})
+function clearModalFields() {
+        // Get all input elements within the modal
+        var inputs = document.querySelectorAll('#addProject input, #addProject textarea, #addProject select');
+
+        // Loop through each input element
+        inputs.forEach(function(input) {
+           // Reset the value of the input element
+           if (input.id === 'project_cost'|| input.id === 'progress') {
+                input.value = '0'; // Set project_cost to 0
+            } else {
+                input.value = ''; // Clear other fields
+            }
+        });
+    }
+     // Get the clear button element
+     var addProjectBtn = document.getElementById('btnAddProject');
+
+// Add a click event listener to the clear button
+addProjectBtn.addEventListener("click", function() {
+    // Call the function to clear all modal fields
+    clearModalFields();
+    
+});
+ // Wait for the DOM to be ready
+ document.addEventListener("DOMContentLoaded", function() {
+        // Get all table rows
+        var rows = document.querySelectorAll(".table tbody tr");
+
+        // Loop through each row
+        rows.forEach(function(row) {
+            // Add a click event listener to each row
+            row.addEventListener("click", function() {
+                // Show the modal when a row is clicked
+                console.log("log",row);
+                $('#addProject').modal('show'); // Assuming you're using jQuery
+            });
+        });
+    });
+    function openDeleteModal(){
+      alert("delete?")
+    }
+</script>

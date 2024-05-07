@@ -10,7 +10,8 @@ const verifyToken = require('../routes/JWTRouter');
 
 // Create and Save a new 
 exports.create = async (req, res) => {
-  const company_id_fk = req.session.company.id
+  const session = req.session;
+  const company_id_fk = session.company.id
   
   try {
     
@@ -35,15 +36,17 @@ exports.create = async (req, res) => {
             return;
           }
 
-          // Print the hashed password
           
           // res.send(hash);
+          console.log("create person")
           const person = await Person.create({ email, first_name, last_name, initials, password: hash, company_id_fk });
           if(req.body.register_yn && req.body.register_yn == "y"){
+          
             //registered send to control
             res.redirect('/');
           }
           else {
+           
             res.redirect('/persons');
           }
         
@@ -60,7 +63,7 @@ exports.findAll = (req, res) => {
   console.log("Get all users for company")
   let company_id_fk;
   try{
-    console.log("req.session:",req.session)
+    
     if(!req.session){
         res.redirect("/pages-500")
     }
@@ -70,7 +73,7 @@ exports.findAll = (req, res) => {
   }catch(error){
     console.log("error:",error)
   }
-   
+   console.log("company_id_fk:",company_id_fk)
       Person.findAll({ where: { company_id_fk: company_id_fk } })
         .then(data => {
           
@@ -89,31 +92,31 @@ exports.findAll = (req, res) => {
 // Find a single  with an id
 exports.login = async  (req, res) => {
   const { email, password } = req.body;
+  console.log("email:",email);
 
-// Check password by encrypted value
-// Find user by email in your database
-const person = await Person.findOne({ email });
+  // Check password by encrypted value
+  // Find user by email in your database
+  const person = await Person.findOne({ email });
+  
+  if (!person) {
+    // User not found
+    return res.status(404).json({ message: "User not found." });
+  }
 
-if (!person) {
-  // User not found
-  return res.status(404).json({ message: "User not found." });
-}
+  console.log("company:", person.company_id_fk);
 
-console.log("company:", person.company_id_fk);
-
-const company = await Company.findOne({ id: person.company_id_fk });
-if (company) {
-  console.log("LOGIN:", company.id);
-  req.session.company = company;
-  req.session.person = person;
-  const token = jwt.sign({ personID: person.id }, 'JWT_TOKEN_PRIORITY_PILOT', {
-    expiresIn: '1h',
-  });
-  console.log("TOKEN::::::: ",token)
-  res.redirect('/');
-} else {
-  res.redirect('/login'); // Redirect to login page if company not found
-}
+  const company = await Company.findOne({ id: person.company_id_fk });
+  if (company) {
+    req.session.company = company;
+    req.session.person = person;
+    // const token = jwt.sign({ personID: person.id }, 'JWT_TOKEN_PRIORITY_PILOT', {
+    //   expiresIn: '1h',
+    // });
+    // console.log("TOKEN::::::: ",token)
+    res.redirect('/');
+  } else {
+    res.redirect('/login'); // Redirect to login page if company not found
+  }
 
 };
 
@@ -202,11 +205,3 @@ exports.deleteAll = (req, res) => {
         });
       });
   };
-//   const getHashPassword = async (password) => {
-//     try {
-//         const hash = await bcrypt.hash(password, saltRounds);
-//         return hash;
-//     } catch (error) {
-//         throw new Error('Error occurred while hashing the password.');
-//     }
-// };

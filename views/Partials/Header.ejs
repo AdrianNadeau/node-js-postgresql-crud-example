@@ -13,7 +13,7 @@
             <ul>
 
                 <li class="has_sub">
-                    <a href="/control" ><i class="mdi mdi-view-dashboard"></i> <span>Mission Control</span> </a>
+                    <a a href="/" onclick=forwardToDashboard(); ><i class="mdi mdi-view-dashboard"></i> <span>Mission Control</span> </a>
                    
                 </li>
 
@@ -194,3 +194,8 @@
         <div class="clearfix"></div>
     </div> <!-- end sidebarinner -->
 </div>
+<script>
+    function forwardToDashboard(){
+        window.location.replace("/");
+    }
+</script>

@@ -1,0 +1,167 @@
+<%- contentFor('HeaderCss') %>
+<link href="public/assets/plugins/c3/c3.min.css" rel="stylesheet" type="text/css" />
+
+
+<%- contentFor('breadcrumb') %>
+<ul class="list-inline menu-left mb-0">
+    <li class="list-inline-item">
+        <button type="button" class="button-menu-mobile open-left waves-effect">
+            <i class="ion-navicon"></i>
+        </button>
+    </li>
+    <li class="hide-phone list-inline-item app-search">
+        <h3 class="page-title">Cockpit</h3>
+    </li>
+</ul>
+
+<%- contentFor('body') %>
+
+<div class="page-content-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-8">
+        <div class="mini-stat clearfix bg-white">
+          <div class="mini-stat-info">
+            <span class="counter"><%=project.project_name %></span>
+          </div>
+          
+          <div>
+            <strong>Headline:</strong> <%=project.project_headline %>
+          </div>
+          <div>
+            <strong>Sponsor:</strong> 
+            <% if(project.sponsor && project.sponsor.last_name){ %>
+                <%=project.sponsor_last_name %>, <%=project.sponsor_last_name %>
+            <%}%>
+
+          </div>
+          <div>
+            <strong>Start:</strong> 
+            <% if(project.start_date){ %>
+              <%=project.start_date %>
+          <%}%>
+        </div>
+          <strong>End:</strong> 
+          <% if(project.end_date){ %>
+            <%=project.end_date %>
+        <%}%>
+        <div>
+          <div>
+          <strong>Next Milestone Date:</strong> 
+          <% if(project.next_milestone_date){ %>
+            <%=project.next_milestone_date %>
+        <%}%>
+        
+        </div>
+          </div>
+          <div>
+            <strong>Investment:</strong>
+            
+              $<%=project.project_cost %>
+          
+          </div>
+          <div>
+            <strong>Effort:</strong>
+            
+               $<%=project.project_cost %>
+          
+          </div>
+          <div>
+            <strong>Why:</strong>
+            
+            <%=project.project_why %>
+          
+          </div>
+          <div>
+            <strong>What:</strong>
+            
+            <%=project.project_what %>
+          </div>
+          <div>
+            <strong>Tags:</strong>
+            
+            <%=project.tags %>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div>
+        <strong>Change Log:</strong>
+        
+        
+        <ul>
+          <li>Sept 30 - Increased Budget $100K</li>
+          <li>May 30 - Changed End Date to Nov 14, 2023</li>
+          <li>May 1 - Approved to Delivery</li>
+
+        </ul>
+        
+
+      </div>
+      <div class="clearfix"></div>
+    </div>
+      
+      <div class="col-4">
+        <div class="mini-stat clearfix bg-white">
+          <div class="mini-stat-info">
+            <!-- <p>Right side</p> -->
+            <a href="/radar/">Radar</a>
+          </div>
+          <div>
+            <!-- <p>Right side</p> -->
+            <a href="/flight-plan/">Flight Plan</a>
+          </div>
+          <div>
+            <!-- <p>Right side</p> -->
+            <a href="/radar/">Health</a>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <!-- <div class="col-md-6">
+        <div class="mini-stat clearfix bg-white">
+          <div class="mini-stat-info">
+            <span class="counter">Priority (8,$1M, 5K PD)</span>
+          </div>
+          <div>
+              
+
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div> -->
+     
+        <!-- <div class="col-md-6">
+          <div class="mini-stat clearfix bg-white">
+            <div class="mini-stat-info">
+              <span class="counter">Delivery (6, $500K, 2K PD)</span>
+            </div>
+            <div>
+             
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div> -->
+        
+      </div>
+      <!-- radar -->
+      <div class="col-md-2">
+
+</div>
+
+
+<%- contentFor('FooterJs') %>
+<script src="public/assets/plugins/peity-chart/jquery.peity.min.js"></script>
+<!--C3 Chart-->
+<script src="public/assets/plugins/d3/d3.min.js"></script>
+<script src="public/assets/plugins/c3/c3.min.js"></script>
+<!-- KNOB JS -->
+<script src="public/assets/plugins/jquery-knob/excanvas.js"></script>
+<script src="public/assets/plugins/jquery-knob/jquery.knob.js"></script>
+<!-- Page specific js -->
+<script src="public/assets/pages/dashboard.js"></script>
+
+ <%- contentFor('BottomJs') %>
+
+ 
+ 
