@@ -145,8 +145,7 @@
           type="button"
           style="width: 75%; margin-bottom: 5px"
           class="btn btn-light"
-          onClick="/projects/radar/pages-radar"
-        >
+          onClick=loadFlightPlan()>
           Flight Plan
         </button>
       </div>
@@ -155,8 +154,7 @@
           type="button"
           style="width: 75%; margin-bottom: 5px"
           class="btn btn-light"
-          onClick="/projects/health/250"
-        >
+          onClick=loadRadar()>
           Health
         </button>
       </div>
@@ -252,6 +250,10 @@
         
       // alert("open Cockpit for  :"+project_id)
       // window.location.replace("/projects/"+project_id)
+  }
+  function loadFlightPlan(){
+   
+   window.location.replace('/projects/flight/263');
   }
  </script>
  

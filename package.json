@@ -23,6 +23,7 @@
     "express-flash-messages": "^0.1.1",
     "express-session": "^1.18.0",
     "express-validator": "^7.0.1",
+    "frappe-gantt": "^0.6.1",
     "http": "0.0.0",
     "js-datepicker": "^4.0.10",
     "jsonwebtoken": "^9.0.2",

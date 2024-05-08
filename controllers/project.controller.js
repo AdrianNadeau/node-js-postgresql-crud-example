@@ -228,6 +228,9 @@ exports.findOne = (req, res) => {
   exports.radar = async  (req, res) => {
     res.render('Pages/pages-radar')
   };
+  exports.flight = async  (req, res) => {
+    res.render('Pages/pages-flight-plan')
+  };
     
   //    const id = req.params.id;
   

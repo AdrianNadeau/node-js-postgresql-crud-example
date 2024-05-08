@@ -28,7 +28,7 @@ module.exports = app => {
      router.get("/radar/:id", projects.radar);
 
      // Retrieve a single  with id
-     router.get("/flightplan/:id", projects.flightplan);
+     router.get("/flight/:id", projects.flight);
 
      // Retrieve a single  with id
      router.get("/health/:id", projects.health);
