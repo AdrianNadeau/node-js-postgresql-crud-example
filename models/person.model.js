@@ -26,6 +26,9 @@ module.exports = (sequelize, Sequelize) => {
         initials: {
           type: Sequelize.STRING
         },
+        role: {
+          type: Sequelize.STRING
+        },
         
         createdAt: {
           allowNull: false,

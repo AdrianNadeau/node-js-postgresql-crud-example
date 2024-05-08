@@ -15,7 +15,7 @@ exports.create = async (req, res) => {
   
   try {
     
-    const { email, first_name, last_name, initials, password } = req.body;
+    const { email, first_name, last_name, initials, password, role } = req.body;
     if (!email) {
       return res.status(400).json({ message: "Email cannot be empty!" });
     } else {
@@ -39,7 +39,7 @@ exports.create = async (req, res) => {
           
           // res.send(hash);
           console.log("create person")
-          const person = await Person.create({ email, first_name, last_name, initials, password: hash, company_id_fk });
+          const person = await Person.create({ email, first_name, last_name, initials, password: hash, company_id_fk, role });
           if(req.body.register_yn && req.body.register_yn == "y"){
           
             //registered send to control
