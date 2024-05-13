@@ -1,33 +1,31 @@
 const db = require("../models");
 const Status = db.statuses;
+const Project = db.projects;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Status
 exports.create = (req, res) => {
-    // Validate request
-   
-    // if (!req.body.project_id_fk) {
-    //   res.status(400).send({
-    //     message: "Project id cannot be null!"
-    //   });
-    //   return;
-    // }
-  
+  console.log("CREATE STATUS : ",req.body.project_id)
+  const currentDate = new Date();
+  console.log("currentDate",currentDate)
     // Create a Status
     const status = {
+      project_id_fk: req.body.project_id,
       prime_id_fk: req.body.prime_id_fk,
-      progress: req.body.progress,
-      status_date: req.body.status_date,
-      health: req.body.health,
-      issue: req.body.issue,
-      actions: req.body.status_date,
-      attachment: req.body.attachment,
+      // status_date: req.body.status_date,
+      // progress: req.body.progress,
+      issue: req.body.status_issues,
+      actions: req.body.status_actions,
+      accomplishments: req.body.status_accomplishments,
+      attachments: req.body.attachments,
     };
-    
+    console.log("status:",status)
     // Save Status in the database
     Status.create(status)
       .then(data => {
-        res.send(data);
+        // console.log("data:",data)
+        //rendor cockpit page again and confirm status update text displays in the change log (add it to db table?)
+        res.redirect('/projects/cockpit/'+data.project_id_fk);
       })
       .catch(err => {
         res.status(500).send({
@@ -57,7 +55,7 @@ exports.findAll = (req, res) => {
 // Find a single Status with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
-    console.log("========================================= id:",id);
+  
     Status.findByPk(id)
       .then(data => {
         if (data) {

@@ -10,13 +10,20 @@ module.exports = app => {
   
     // Retrieve all 
     router.get("/", persons.findAll);
+    
 
     // Retrieve a single Person with id
     router.get("/:id", persons.findOne);
 
+    // Retrieve a single Person with id
+    router.get("/edit/:id", persons.findOneForEdit);
+  
      // Retrieve a single Person with id
      router.post("/auth/login/", persons.login);
   
+    // Update a Person with id
+    router.put("/:id", persons.update);
+
     // Update a Person with id
     router.put("/:id", persons.update);
   

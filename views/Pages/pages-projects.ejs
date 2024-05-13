@@ -1,3 +1,131 @@
+
+<% include ../Partials/HeaderRoot  %>
+
+        <!-- Loader -->
+        <div id="preloader"><div id="status"><div class="spinner"></div></div></div>
+
+        <!-- Begin page -->
+        <div class="accountbg"></div>
+        <div class="wrapper-page">
+
+            <div class="card">
+                <div class="card-body">
+               
+                    <h3 class="text-center m-0">
+                        <!-- Priority Pilot -->
+                        <a href="/" class="logo logo-admin"><img src="public/assets/images/logo.png" alt="logo"></a>
+                    </h3>
+
+                    <div class="p-3">
+                        <p class="text-muted text-center">Get your Pilot account.</p>
+                        
+
+                        <form class="form-horizontal m-t-30 needs-validation" novalidate action="/register" method="POST">
+                            <input type="hidden" name="register_yn" value="y"/>
+                            <div class="form-group needs-validation" novalidate>
+                                <label for="company_name">Company Name</label>
+                                <input type="text" class="form-control" id="company_name"  name="company_name" placeholder="Enter Name..." required>
+                                <div class="invalid-feedback">
+                                    Please enter company name.
+                                  </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="company_headline">Company Headline</label>
+                                <input type="text" class="form-control" id="company_headline" name="company_headline" placeholder="Enter Headline...">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="company_description">Company Description</label>
+                                <textarea class="form-control" id="company_description" name = "company_description" placeholder="Enter Description..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="company_logo">Company Logo (will be pushed to storage bucket)</label>
+                                <input type="file" class="form-control" id="logo" name="logo" />
+                            </div>
+                           
+
+                            <div class="form-group row m-t-20">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Continue</button>
+                                </div>
+                            </div>
+
+                            <!-- <div class="form-group m-t-10 mb-0 row">
+                                <div class="col-12 m-t-20">
+                                    <p class="font-14 text-muted mb-0">By registering you agree to the Priority Pilot <a href="#">Terms of Use</a></p>
+                                </div>
+                                <div class="col-12 m-t-20">
+                                    <p class="font-14 text-muted mb-0">Already have an account? <a href="/login">Login</a></p>
+                                </div>
+                            </div> -->
+                            <div class="col-12 m-t-20">
+                                <p class="font-14 text-muted mb-0">By registering you agree to the Priority Pilot <a href="#">Terms of Use</a></p>
+                            </div>
+                            <div class="m-t-40 text-center">
+                                <p>Already have an account ? <a href="/login" class="font-500 font-14 font-secondary"> Login </a> </p>
+                                <p>© <%= new Date().getFullYear() - 1; %> - <%= new Date().getFullYear(); %> Priority Pilot.
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- <div class="m-t-40 text-center">
+                <p class="font-14 text-muted mb-0">©  <%= new Date().getFullYear(); %> Priority Pilot.</p>
+                
+            </div> -->
+
+        </div>
+
+
+        <% include ../Partials/FooterRoot  %>
+<script>
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <%- contentFor('HeaderCss') %>
 <!-- Bootstrap CSS -->
 
@@ -58,8 +186,16 @@
                                         <% } %>
                                        
                                         
-                                        <td><%= project.start_date %></td>
-                                        <td><%= project.end_date %></td>
+                                        <td>
+                                          <% if(project.start_date){ %>
+                                              <%= project.start_date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                                            <%}%>
+                                       </td>
+                                       <td>
+                                        <% if(project.end_date){ %>
+                                            <%= project.end_date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                                          <%}%>
+                                     </td>
                                         <td><%= project.health %></td>
                                         <td><%= project.phase_name %></td>
                                         
@@ -82,7 +218,7 @@
                   <div class="modal-dialog">
                       <div class="modal-content" style="width: 900px;">
                           <div class="modal-header">
-                              <h5 class="modal-title mt-0" id="myModalLabel">Add Project</h5>
+                              <h5 class="modal-title mt-0">Add Project</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                           </div>
                           <div class="modal-body">
@@ -128,7 +264,8 @@
                                         </div>
                                         <div class="form-group">
                                           <label for="datepicker">Status Date:</label>
-                                          <input type="date" id="status_date" name="status_date" class="form-control">
+                                          <input type="input" id = "status_date" disabled><br/>
+                                          ** Pulled in from last update</input>
                                         </div>
                                       </div>
                                       <div class="col-md-6">
@@ -202,7 +339,7 @@
                                         <div class="form-group">
                                           <label for="complexity">Complexity:</label>
                                           <select  name = "complexity" id = "complexity">
-                                            <option value="0">Select...</option>
+                                            
                                             <% for (var i = 1; i <= 10; i++) { %>
                                               <option value="<%= i %>"><%= i %></option>
                                             <% } %>
@@ -216,7 +353,7 @@
                                       
                                         <div class="form-group" >
                                           <label for="project_health">Health</label>
-                                          ** Calculated
+                                          Green
                                          
                                        </div>
                                        <div class="form-group" >
@@ -229,16 +366,7 @@
                                         <input type="text" class="form-control" id="progress"  name="progress" value="0" >
                                        
                                     </div>
-                                    <div class="form-group" >
-                                        <label for="progress">Issue</label>
-                                        <input type="text" class="form-control" id="issue"  name="issue" >
-                                       
-                                    </div>
-                                    <div class="form-group" >
-                                        <label for="actions">Actions</label>
-                                        <input type="text" class="form-control" id="actions"  name="actions"  >
-                                       
-                                    </div>
+                                  
                             
                                     <div class="form-group" >
                                         <label class="form-label" for="logo"></label>

@@ -83,16 +83,6 @@ module.exports = (sequelize, Sequelize) => {
     progress: {
       type: Sequelize.STRING
     },
-    issue: {
-      type: Sequelize.STRING
-    },
-    
-    actions: {
-      type: Sequelize.STRING
-    },
-    attachment: {
-      type: Sequelize.STRING
-    }
   });
 
   return Project;

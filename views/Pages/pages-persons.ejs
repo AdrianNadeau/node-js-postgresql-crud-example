@@ -13,7 +13,7 @@
     
     <li class="hide-phone list-inline-item app-search">
         <h3 class="page-title">Employees</h3>
-        <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#addPerson" id="btnAddPerson">Add Employee</button>
+        <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#personForm" id="btnAddPerson">Add Employee</button>
         
     </li>
 </ul>
@@ -28,9 +28,12 @@
                             <table class="table mb-0">
                                 <thead>
                                     <tr>
+                                        <th>ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Initials</th>
+                                        <th>Role</th>
+                                        
                         
                                     </tr>
                                     
@@ -38,10 +41,10 @@
                                 <% persons.forEach(function(person){ %>
                                     <tbody>
                                         <tr style="cursor: pointer;">
+                                            <td><%= person.id %></td>
                                             <td><%= person.last_name %>, <%= person.first_name %></td>
                                             <td><%= person.email %></td>
-                                            <td><%= person.initials %></td>
-                                            
+                                            <td><%= person.role %></td>
                                             
                                         </tr>
                                     </tbody>
@@ -57,21 +60,25 @@
         <div class="row">
             <div class="col-md-12 m-t-30">
                 <!-- sample modal content -->
-                <div id="addPerson" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div id="personForm" class="modal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                       <div class="modal-content" style="width: 500px;">
                           <div class="modal-header">
-                              <h5 class="modal-title mt-0" id="myModalLabel">Add Employee</h5>
+                              <h5 class="modal-title mt-0" id="personTitle">Add Person</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                           </div>
                           <div class="modal-body">
-                              <form action="/persons" class="needs-validation" novalidate method="POST">
-                                <input type="hidden" name="register_yn" id="register_yn" value="n"/>
+                              <form action="/persons" class="needs-validation" id="addPersonForm" novalidate method="POST">
+                                
+                                
+                                <input type="hidden" id="add_yn"  name="add_yn" value="y">
+
                                   <div class="row">
                                       <div class="col-md-12">
                                           <!-- First column of form fields -->
                                           <div class="form-group needs-validation" novalidate>
                                             <label for="last_name">Email</label>
+                                           
                                             <input type="email" class="form-control" id="email"  name="email" required>
                                             <div class="invalid-feedback">
                                                 Please enter valid email.
@@ -105,7 +112,7 @@
                                      
                                   <!-- Add more rows and columns if needed -->
                                   <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                      <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cancel</button>
                                       <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Submit</button>
                                   </div>
                               </form>
@@ -145,7 +152,7 @@
   
 function clearModalFields() {
         // Get all input elements within the modal
-        var inputs = document.querySelectorAll('#addPerson input, #addPerson textarea, #addPerson select');
+        var inputs = document.querySelectorAll('#personForm input, #personForm textarea, #personForm select');
 
         // Loop through each input element
         inputs.forEach(function(input) {
@@ -161,6 +168,9 @@ function clearModalFields() {
 addPersonBtn.addEventListener("click", function() {
     // Call the function to clear all modal fields
     clearModalFields();
+    //display modal
+    var personForm = document.getElementById("modal")
+    personForm.style.display = "block";
     
 });
  // Wait for the DOM to be ready
@@ -170,13 +180,21 @@ addPersonBtn.addEventListener("click", function() {
 
         // Loop through each row
         rows.forEach(function(row) {
+            console.log("row:",row)
             // Add a click event listener to each row
             row.addEventListener("click", function() {
+                var id = row.cells[0].textContent; // Assuming the ID is in the first cell
+        
+                // Now you have the ID, you can use it as needed
+                console.log("ID:", id);
                 // Show the modal when a row is clicked
-                console.log("if edit populate fields");
+                window.location.replace('/persons/'+id)
 
-                $('#addPerson').modal('show'); // Assuming you're using jQuery
+                // $('#personForm').modal('show'); // Assuming you're using jQuery
             });
         });
     });
+
+   
+
 </script>

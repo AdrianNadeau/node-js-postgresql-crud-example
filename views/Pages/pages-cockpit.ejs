@@ -23,95 +23,90 @@
       <div class="col-8">
         <div class="mini-stat clearfix bg-white">
           <div class="mini-stat-info">
-            <!-- <span class="counter" style="padding-bottom:20px;"><%=project.project_name %></span> -->
-            <span class="counter" style="padding-bottom:20px;">Virtual Contact Center</span>
+            
+            <span class="counter" style="padding-bottom:20px;"><%=project[0].project_name%></span>
           </div>
           
           <div>
-            <!-- <strong>Headline:</strong> <%=project.project_headline %> -->
-            <strong>Headline:</strong> Headline: Able to take a call from anywhere in the world.
+            <strong>Headline:</strong> <%=project[0].project_headline %>
+            <!-- <strong>Headline:</strong> Able to take a call from anywhere in the world. -->
           </div>
           <div>
-            <!-- <strong>Sponsor:</strong> 
-            <% if(project.sponsor_last_name){ %>
-                <%=project.sponsor_last_name %>, <%=project.sponsor_last_name %>
-            <%}%> -->
-            <strong>Sponsor:</strong> VP of CE
-          </div>
+            <strong>Sponsor:</strong> 
+            <% if(project[0].sponsor_last_name){ %>
+                <%=project[0].sponsor_last_name %>, <%=project[0].sponsor_last_name %>
+            <%}%>
+           
+            </div>
           <div>
-            <!-- <strong>Prime:</strong> 
-            <% if(project.prime_last_name){ %>
-                <%=project.prime_last_name %>, <%=project.prime_first_name %>
-            <%}%> -->
             <strong>Prime:</strong> 
-            Adrian Nadeau
-
+            <% if(project[0].prime_last_name){ %>
+                <%=project[0].prime_last_name %>, <%=project[0].prime_first_name %>
+            <%}%>
+            
           </div>
           <div>
             <strong>Start:</strong> 
-            Mar 3, 2024
+            <% if(project[0].start_date){ %>
+              <%= project[0].start_date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+            <%}%>
         </div>
           
-          <!-- <% if(project.end_date){ %>
-            <%=project.end_date %>
-        <%}%> -->
+         
         <div>
           <strong>End:</strong> 
-          Nov 15, 2024
+          <% if(project[0].end_date){ %>
+            <%= project[0].end_date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+          <%}%>
       </div>
         
         <div>
           <div>
           <strong>Next Milestone Date:</strong> 
-          Aug 9, 2024
-          <!-- <% if(project.next_milestone_date){ %>
-            <%=project.next_milestone_date %>
-        <%}%> -->
+          <% if(project[0].next_milestone_date){ %>
+            <%= project[0].next_milestone_date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+          <%}%>
+        
         
         </div>
        
           <div>
             <strong>Investment:</strong>
-            $450,000
-              <!-- $<%=project.project_cost %> -->
+          
+              $<%=project[0].project_cost %>
           
           </div>
           <div>
             <strong>Effort:</strong>
             2K PH
-               <!-- <%=project.project_cost %> -->
+               
           
           </div>
           <div>
             
             <strong>Why:</strong>
-            <textarea class="form-control" id="project_why" rows="3" disabled>We are struggling to find talent for all timezones in a single geography so need to bring call center features to staff wherever they are
+            <textarea class="form-control" id="project_why" rows="3" disabled><%=project[0].project_why %>
             </textarea>
-            <!-- <%=project.project_why %> -->
           
           </div>
           <div>
             
             <strong>What:</strong>
-            <textarea class="form-control" id="project_what" rows="3" disabled>Implement a Virtual Call Center solution, that allows agents to work from home or small geographic centers 
+            <textarea class="form-control" id="project_what" rows="3" disabled><%=project[0].project_what %> 
             </textarea>
-            <!-- <%=project.project_why %> -->
-          
+           
           </div>
           <div>
             <strong>Tags:</strong>
             <br/>
             <button type="button" class="btn btn-warning">Strategy</button>&nbsp;<button type="button" class="btn btn-primary">Customer Service</button>
-            <!-- <%=project.tags %> -->
           </div>
           <div class="clearfix"></div>
         </div>
         <div>
           <strong>Change Log:</strong>
-          <textarea class="form-control" id="project_what" rows="3" disabled>Sept 30 - Increased Budget $100K.
-May 30 - Changed End Date to Nov 14, 2023
-May 1 - Approved to Delivery
-
+          <textarea class="form-control" id="change_log" rows="3" disabled>
+            Loop through status values
           </textarea>
           
   
@@ -124,35 +119,42 @@ May 1 - Approved to Delivery
     </div>
       
     <div class="col-4">
+      <form action="/statuses/" class="needs-validation" novalidate method="POST">
+      <input type="hidden" id="project_id" name="project_id" value="<%=project[0].id %>"/>
+      <input type="hidden" id="prime_id_fk" name="prime_id_fk" value="<%=project[0].prime_id_fk %>"/>
+
+      
       <div class="mini-stat clearfix bg-white" style="min-height: 680px;">
         <div class="mini-stat-info">
-          <select name="priority_id_fk" id="priority_id_fk">
-            <option value="">August 1, 2023 - Adrian Nadeau</option>
+          <select name="prime_id" id="prime_id">
+            <option value=""><%= current_date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %> -  <% if(project[0].prime_last_name){ %>
+              <%=project[0].prime_last_name %>, <%=project[0].prime_first_name %>
+          <%}%></option>
           </select>
         </div>
         <br/>
         <div class="mini-stat-info cockpit-right">
           <strong>Accomplishments:</strong><br/>
-          <textarea class="form-control" id="project_accomplishments" rows="3" disabled>
-          </textarea>
+          <textarea class="form-control" id="status_accomplishments" name="status_accomplishments" rows="3"></textarea>
         </div>
         
         <div class="clearfix"></div>
         <strong>Issues:</strong><br/>
         <div class="mini-stat-info  cockpit-right">
-          <textarea class="form-control" id="project_accomplishments" rows="3" disabled>
-          </textarea>
+          <textarea class="form-control" id="status_issues" name="status_issues" rows="3"></textarea>
 
         </div>
         <div class="mini-stat-info  cockpit-right">
           <strong>Actions:</strong>
-          <textarea class="form-control" id="project_accomplishments" rows="3" disabled>
-          </textarea>
+          <textarea class="form-control" id="status_actions" name="status_actions" rows="3"></textarea>
+        </div>
+      
+        <div class="mini-stat-info  cockpit-right">
+          <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Update Status</button>
         </div>
         
-        <div class="clearfix"></div>
-      </div>
-    </div>
+    </form>
+  </div>
     
      
 

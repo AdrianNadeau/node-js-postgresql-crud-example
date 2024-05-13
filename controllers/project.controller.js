@@ -9,6 +9,9 @@ const Op = db.Sequelize.Op;
 
 // Create and Save a new Project
 exports.create = (req, res) => {
+  if(req.session.company.id==null){
+    res.redirect('/login');
+  }
   const company_id_fk = req.session.company.id
   console.log("CREATE FOR COMPANY: ",company_id_fk)
  
@@ -50,21 +53,19 @@ exports.create = (req, res) => {
       project_cost :req.body.project_cost,
       effort:req.body.effort,
       benefit:req.body.benefit,
-      impact:req.body.impact,
       complexity:req.body.complexity,
       tags:req.body.tags,
-      issue:req.body.issue,
-      actions:req.body.actions,
-      attachment :req.body.attachment
+     
     };
     // Save Project in the database
     Project.create(project)
       .then(async data => {
+        let company_primes =Person.findByPk(project.prime_id_fk);
+        let company_sponsors=Person.findByPk(project.sponsor_id_fk);
         // Retrieve data from all sources
-        const [phasesData, prioritiesData, personsData, projectsData] = await Promise.all([
+        const [phasesData, prioritiesData, personsData] = await Promise.all([
           Phase.findAll(),
           Priority.findAll(),
-          Person.findAll(),
           Project.findAll() // Assuming Project.findAll() returns a Promise
       ]);
       
@@ -79,8 +80,8 @@ exports.create = (req, res) => {
                   projects: data,
                   phases: phasesData,
                   priorities: prioritiesData,
-                  sponsors: personsData,
-                  primes: personsData
+                  sponsors: company_sponsors,
+                  primes: company_primes
               });
           }).catch(err => {
               res.status(500).send({
@@ -188,16 +189,18 @@ exports.findOne = (req, res) => {
     // project for cockpit
     console.log("company_id:",company_id_fk)
     console.log("project_id:",project_id)
-    const query ='SELECT proj.company_id_fk,proj.id, proj.issue, proj.actions, proj.project_name, proj.start_date, proj.end_date, proj.health, prime_person.first_name AS prime_first_name, prime_person.last_name AS prime_last_name, sponsor_person.first_name AS sponsor_first_name, sponsor_person.last_name AS sponsor_last_name, proj.project_cost, phases.phase_name FROM projects proj LEFT JOIN persons prime_person ON prime_person.id = proj.prime_id_fk LEFT JOIN persons sponsor_person ON sponsor_person.id = proj.sponsor_id_fk LEFT JOIN phases ON phases.id = proj.phase_id_fk WHERE proj.company_id_fk = ? AND proj.id = ?';
-    
+    const query ='SELECT proj.company_id_fk,proj.id, proj.prime_id_fk, proj.project_headline, proj.project_name, proj.start_date, proj.end_date, proj.next_milestone_date, proj.project_why, proj.project_what, proj.health, prime_person.first_name AS prime_first_name, prime_person.last_name AS prime_last_name, sponsor_person.first_name AS sponsor_first_name, sponsor_person.last_name AS sponsor_last_name, proj.project_cost, phases.phase_name FROM projects proj LEFT JOIN persons prime_person ON prime_person.id = proj.prime_id_fk LEFT JOIN persons sponsor_person ON sponsor_person.id = proj.sponsor_id_fk LEFT JOIN phases ON phases.id = proj.phase_id_fk WHERE proj.company_id_fk = ? AND proj.id = ?';
+    const currentDate = new Date();
     await db.sequelize.query(query, {
       replacements: [company_id_fk, req.params.id],
             type: db.sequelize.QueryTypes.SELECT
         }).then(data => {
-            console.log("COCKPIT:",data)
+          console.log("data:",data)
             // Render the page when all data retrieval operations are complete
             res.render('Pages/pages-cockpit', {
+             
               project: data,
+              current_date: currentDate
     
           });
             // res.render('Pages/pages-cockpit', {
@@ -211,26 +214,18 @@ exports.findOne = (req, res) => {
         });
     
     
-    
-    // const sponsor = await Person.findOne({ id: project.sponsor_id_fk });
-    // if(!sponsor.first_name){
-    //     sponsor.first_name = "N/A";
-    //     sponsor.last_name  = "N/A";
-    // }
-    // const prime = await Person.findOne({ id: project.prime_id_fk });
-    // if(!prime.first_name){
-    //     sponsor.first_name = "N/A";
-    //     sponsor.last_name = "N/A";
-    // }
-    
-    
   };
   exports.radar = async  (req, res) => {
+    console.log("RADAR");
     res.render('Pages/pages-radar')
   };
   exports.flight = async  (req, res) => {
     res.render('Pages/pages-flight-plan')
   };
+    
+  
+  // exports.flightplan = async  (req, res) => {
+   
     
   //    const id = req.params.id;
   
@@ -242,14 +237,9 @@ exports.findOne = (req, res) => {
   //   if (!project) {
   //     return res.status(404).json({ message: "Project not found." });
   //   }
-  
-  //   console.log("project:", id);
-  
    
   //   if (project) {
-     
-     
-  //     const sponsor = await Person.findOne({ id: project.sponsor_id_fk });
+  //    const sponsor = await Person.findOne({ id: project.sponsor_id_fk });
   //     if(!sponsor.first_name){
   //       sponsor.first_name = "N/A";
   //       sponsor.last_name  = "N/A";
@@ -259,79 +249,16 @@ exports.findOne = (req, res) => {
   //       sponsor.first_name = "N/A";
   //       sponsor.last_name = "N/A";
   //     }
-  //     res.render('Pages/pages-radar');
+  //     res.render('Pages/pages-flight-plan');
   //   } else {
   //     // res.redirect('/login'); // Redirect to login page if company not found
   //   }
   // };
-  exports.flightplan = async  (req, res) => {
-   
-    console.log("Flight plan");
-     const id = req.params.id;
-  
-    // Check password by encrypted value
-    // project for cockpit
-    const project = await Project.findOne({ id: id });
-    // res.send(project)
-    
-    if (!project) {
-      return res.status(404).json({ message: "Project not found." });
-    }
-  
-    console.log("project:", id);
-  
-   
-    if (project) {
-      console.log("PROJECT=======================:",project)
-     
-      const sponsor = await Person.findOne({ id: project.sponsor_id_fk });
-      if(!sponsor.first_name){
-        sponsor.first_name = "N/A";
-        sponsor.last_name  = "N/A";
-      }
-      const prime = await Person.findOne({ id: project.prime_id_fk });
-      if(!prime.first_name){
-        sponsor.first_name = "N/A";
-        sponsor.last_name = "N/A";
-      }
-      res.render('Pages/pages-flight-plan');
-    } else {
-      // res.redirect('/login'); // Redirect to login page if company not found
-    }
-  };
   exports.health = async  (req, res) => {
    
-    console.log("Health");
-     const id = req.params.id;
-  
-    // Check password by encrypted value
-    // project for cockpit
-    const project = await Project.findOne({ id: id });
-    // res.send(project)
-    
-    if (!project) {
-      return res.status(404).json({ message: "Project not found." });
-    }
-  
-    console.log("project:", id);
-  
-   
-    if (project) {
-      
-      const sponsor = await Person.findOne({ id: project.sponsor_id_fk });
-      if(!sponsor.first_name){
-        sponsor.first_name = "N/A";
-        sponsor.last_name  = "N/A";
-      }
-      const prime = await Person.findOne({ id: project.prime_id_fk });
-      if(!prime.first_name){
-        sponsor.first_name = "N/A";
-        sponsor.last_name = "N/A";
-      }
+    // 
       res.render('Pages/pages-health');
-    } else {
-      // res.redirect('/login'); // Redirect to login page if company not found
-    }
+   
   };
 // Update a Project by the id in the request
 exports.update = (req, res) => {

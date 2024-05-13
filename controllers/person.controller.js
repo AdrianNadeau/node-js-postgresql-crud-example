@@ -122,10 +122,12 @@ exports.login = async  (req, res) => {
 
 // Find a single  with an id
 exports.findOne = (req, res) => {
+    id = req.params.id;
     Person.findByPk(id)
       .then(data => {
         if (data) {
-          res.send(data);
+          // res.send(data);
+          res.redirect('/persons/edit/'+id);
         } else {
           res.status(404).send({
             message: `Cannot find Person with id=${id}.`
@@ -138,7 +140,31 @@ exports.findOne = (req, res) => {
         });
       });
   };
-
+  exports.findOneForEdit = (req, res) => {
+    
+    id = req.params.id;
+    Person.findByPk(id)
+      .then(data => {
+        if (data) {
+          // res.send(data);
+          // res.redirect('/persons/pages-edit-person/'+id);
+            // Render the page when all data retrieval operations are complete
+            res.render('Pages/pages-edit-person', {
+              personData: data,
+          });
+        } else {
+          res.status(404).send({
+            message: `Cannot find Person with id=${id}.`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Error retrieving Person with id=" + id
+        });
+      });
+  };
+ 
 // Update a  by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;

@@ -21,5 +21,5 @@ module.exports = app => {
     // Create a new Tag
     router.delete("/", statuses.deleteAll);
   
-    app.use('/api/statuses', router);
+    app.use('/statuses', router);
   };
