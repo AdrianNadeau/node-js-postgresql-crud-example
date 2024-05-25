@@ -10,7 +10,7 @@ const uuid = require('uuid');
 
 
 // var Authrouter = require('./routes/AuthRouter.js');
-var DashboardRouter = require('./routes/DashboardRouter.js');
+// var DashboardRouter = require('./routes/DashboardRouter.js');
 
 // Access public folder from root
 // app.use('/public', express.static('public'));
@@ -38,7 +38,7 @@ app.use(sessionMiddleware);
 
 // Add Authentication Route file with app
 // app.use('/', Authrouter); 
-app.use('/control', DashboardRouter);
+// app.use('/control', DashboardRouter);
 
 
 //For set layouts of html view

@@ -1,28 +1,20 @@
 const express = require('express');
-const path = require('path');
 const app = express();
 require('dotenv').config()
-var router = require('./api.js');
-var Authrouter = require('./AuthRouter.js');
-// Add Authentication Route file with app
+var API = require('./api');
+
+// Set the view engine to EJS
+app.set('view engine', 'ejs');
 
 // Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', Authrouter); 
-// Define a simple API endpoint
-// app.get('/api/data', (req, res) => {
-//     res.json({ message: 'Hello from the API' });
-// });
-//For set layouts of html view
-var expressLayouts = require('express-ejs-layouts');
-
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.use(expressLayouts);
-
-let port = process.env.PORT;
+app.use(express.static('public'));
+app.use('/', API); 
+// Define a route
 
 
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+console.log("PORT:",process.env.PORT)
+// Start the server
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

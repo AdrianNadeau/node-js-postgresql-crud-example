@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 
 exports.create = async (req, res) => {
   try {
-    
+    console.log("create company")
     const { company_name, company_headline, company_description, company_logo} = req.body;
     if (!company_name) {
       return res.status(400).json({ message: "Company Name cannot be empty!" });
